@@ -68,7 +68,7 @@ export default class BugsList extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6">
+                <div>
                     <h4>Bugs </h4>
                     <div className="list row">
                         <table className="table table-bordered table-condensed table-striped table-hover">

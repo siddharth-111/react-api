@@ -89,7 +89,7 @@ export default class TutorialsList extends Component {
 
         return (
             <div className="list row">
-                <div className="col-md-8">
+                <div className="col-md-4">
                     <div className="input-group mb-3">
                         <input
                             type="text"
@@ -109,7 +109,7 @@ export default class TutorialsList extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6">
+                <div>
                     <h4>Tutorials List</h4>
                     <div className="list row">
                 <table className="table table-bordered table-condensed table-striped table-hover">
