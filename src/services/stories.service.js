@@ -1,6 +1,6 @@
 import http from "../http-common";
 
-class TutorialDataService {
+class StoriesDataService {
     getAll() {
         return http.get("/stories");
     }
@@ -30,4 +30,4 @@ class TutorialDataService {
     }
 }
 
-export default new TutorialDataService();
+export default new StoriesDataService();

@@ -5,21 +5,27 @@ import "./App.css";
 
 import AddTutorial from "./components/add-tutorial.component";
 import Tutorial from "./components/tutorial.component";
-import TutorialsList from "./components/tutorials-list.component";
 import BitCoinBlocks from "./components/bitcoin-blocks.component";
+import StoriesList from "./components/stories-list.component"
+
 
 class App extends Component {
     render() {
         return (
             <div>
                 <nav className="navbar navbar-expand navbar-dark bg-dark">
-                    <a href="/tutorials" className="navbar-brand">
+                    <a href="/stories" className="navbar-brand">
                         bezKoder
                     </a>
                     <div className="navbar-nav mr-auto">
                         <li className="nav-item">
-                            <Link to={"/tutorials"} className="nav-link">
-                                Tutorials
+                            <Link to={"/stories"} className="nav-link">
+                                Stories
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to={"/add"} className="nav-link">
+                                Add
                             </Link>
                         </li>
                         <li className="nav-item">
@@ -37,7 +43,7 @@ class App extends Component {
 
                 <div className="container mt-3">
                     <Switch>
-                        <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
+                        <Route exact path={["/", "/stories"]} component={ StoriesList } />
                         <Route exact path="/add" component={AddTutorial} />
                         <Route path="/tutorials/:id" component={Tutorial} />
                         <Route exact path={["/", "/bitcoinblocks"]} component={BitCoinBlocks} />

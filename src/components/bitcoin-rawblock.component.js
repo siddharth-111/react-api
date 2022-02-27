@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import BitCoinService from "../services/bitcoin.service.js";
 import { Link } from "react-router-dom";
-import Table from 'react-bootstrap/Table';
 
-export default class BitCoinBlocks extends Component {
+export default class BitCoinRawBlock extends Component {
     constructor(props) {
         super(props);
         // this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
@@ -28,10 +27,10 @@ export default class BitCoinBlocks extends Component {
     // }
 
     retrieveBlocks() {
-        BitCoinService.getAll()
+        BitCoinService.get()
             .then(response => {
                 this.setState({
-                    blocks: response.data,
+                    blocks: response.data.blockChainResponseList,
                     size: response.data.size
                 });
             })
@@ -44,16 +43,13 @@ export default class BitCoinBlocks extends Component {
         this.retrieveBlocks();
     }
 
-    rowEvents(id) {
-        window.location.href = "/rawblock/" + id;  
-    }
 
     render() {
         const { blocks } = this.state;
 
         return (
             <div className="list row">
-                <Table striped bordered hover>
+                <table className="table table-bordered table-condensed table-striped table-hover">
                 <thead>
                     <tr>
                     <th scope="col">Hash</th>
@@ -64,14 +60,14 @@ export default class BitCoinBlocks extends Component {
                 <tbody>
                     {blocks &&
                             blocks.map((block, index) => (
-                                <tr key={index} className = "table-row" onClick={() => this.rowEvents(block.hash)}>
-                                    <td>{block.hash}</td>
+                                <tr key={index} className = "table-row">
+                                    <td><a href = {"/rawblock/" + block.hash }>{block.hash}</a></td>
                                     <td >{block.time}</td>
                                     <td >{block.height}</td>
                                 </tr>
                     ))}
                 </tbody>
-                </Table>
+                </table>
             </div>
         );
     }

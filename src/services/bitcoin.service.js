@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class BitCoinService {
     getAll() {
-        return http.get("/blocks/2021-10-21/0");
+        return http.get("/blocks/2021-10-21");
     }
 
     get(id) {
