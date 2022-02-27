@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import BugsDataService from "../services/bugs.service";
+import DeveloperDataService from "../services/developer.service";
 
-export default class BugsList extends Component {
+export default class DeveloperList extends Component {
     constructor(props) {
         super(props);
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
@@ -9,7 +9,7 @@ export default class BugsList extends Component {
         this.refreshList = this.refreshList.bind(this);
 
         this.state = {
-            bugs: [],
+            developers: [],
             searchTitle: ""
         };
     }
@@ -27,10 +27,10 @@ export default class BugsList extends Component {
     }
 
     retrieveStories() {
-        BugsDataService.getAll()
+        DeveloperDataService.getAll()
             .then(response => {
                 this.setState({
-                    bugs: response.data
+                    developers: response.data
                 });
                 
             })
@@ -44,7 +44,7 @@ export default class BugsList extends Component {
     }
 
     render() {
-        const { searchTitle, bugs, currentTutorial, currentIndex } = this.state;
+        const { searchTitle, developers, currentTutorial, currentIndex } = this.state;
 
         return (
             <div className="list row">
@@ -69,27 +69,21 @@ export default class BugsList extends Component {
                     </div>
                 </div>
                 <div className="col-md-6">
-                    <h4>Bugs </h4>
+                    <h4> Developers </h4>
                     <div className="list row">
                         <table className="table table-bordered table-condensed table-striped table-hover">
                             <thead>
                                 <tr>
                                 <th scope="col">S.No.</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Priority</th>
+                                <th scope="col">Name</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {bugs &&
-                                        bugs.map((bug, index) => (
+                                {developers &&
+                                        developers.map((developer, index) => (
                                             <tr key={index} className = "table-row">
                                                 <td>{index + 1}</td>
-                                                <td>{bug.title}</td>
-                                                <td>{bug.description}</td>
-                                                <td>{bug.bugStatus}</td>
-                                                <td>{bug.priority}</td>
+                                                <td>{developer.name}</td>
                                             </tr>
                                 ))}
                             </tbody>

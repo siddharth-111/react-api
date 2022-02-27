@@ -29,11 +29,11 @@ export default class StoriesList extends Component {
     retrieveStories() {
         StoriesDataService.getAll()
             .then(response => {
-                debugger;
+                console.log(response.data);
                 this.setState({
                     stories: response.data
                 });
-                console.log(response.data);
+                
             })
             .catch(e => {
                 console.log(e);
@@ -70,7 +70,7 @@ export default class StoriesList extends Component {
                     </div>
                 </div>
                 <div className="col-md-6">
-                    <h4>Stories List</h4>
+                    <h4>Stories </h4>
                     <div className="list row">
                         <table className="table table-bordered table-condensed table-striped table-hover">
                             <thead>
@@ -86,7 +86,7 @@ export default class StoriesList extends Component {
                                 {stories &&
                                         stories.map((story, index) => (
                                             <tr key={index} className = "table-row">
-                                                <td>{story}</td>
+                                                <td>{index + 1}</td>
                                                 <td>{story.title}</td>
                                                 <td>{story.description}</td>
                                                 <td>{story.storyStatus}</td>
@@ -95,8 +95,8 @@ export default class StoriesList extends Component {
                                 ))}
                             </tbody>
                         </table>
-                    </div>
-                </div>             
+                </div>
+                </div>            
             </div>
         );
     }

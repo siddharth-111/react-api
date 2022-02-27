@@ -110,92 +110,33 @@ export default class TutorialsList extends Component {
                     </div>
                 </div>
                 <div className="col-md-6">
-                    <h4>Stories List</h4>
+                    <h4>Tutorials List</h4>
                     <div className="list row">
-                        <table className="table table-bordered table-condensed table-striped table-hover">
-                            <thead>
-                                <tr>
-                                <th scope="col">S.No.</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Points</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tutorials &&
-                                        tutorials.map((block, index) => (
-                                            <tr key={index} className = "table-row">
-                                                <td>{index}</td>
-                                                <td>{block.title}</td>
-                                                <td>{block.description}</td>
-                                                <td>{block.storyStatus}</td>
-                                                <td>{block.points}</td>
-                                            </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    { /* <ul className="list-group">
+                <table className="table table-bordered table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">S.No.</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {tutorials &&
-                        tutorials.map((tutorial, index) => (
-                            <li
-                                className={
-                                    "list-group-item " +
-                                    (index === currentIndex ? "active" : "")
-                                }
-                                onClick={() => this.setActiveTutorial(tutorial, index)}
-                                key={index}
-                            >
-                                {tutorial.title}
-                            </li>
+                                tutorials.map((block, index) => (
+                                    <tr key={index} className = "table-row">
+                                        <td>{index}</td>
+                                        <td>{block.title}</td>
+                                        <td>{block.description}</td>
+                                        <td>{block.storyStatus}</td>
+                                        <td>{block.points}</td>
+                                    </tr>
                         ))}
-                    </ul>
-
-                    <button
-                        className="m-3 btn btn-sm btn-danger"
-                        onClick={this.removeAllTutorials}
-                    >
-                        Remove All
-                    </button> */ }
+                    </tbody>
+                </table>
                 </div>
-                {/* <div className="col-md-6">
-                    {currentTutorial ? (
-                        <div>
-                            <h4>Tutorial</h4>
-                            <div>
-                                <label>
-                                    <strong>Title:</strong>
-                                </label>{" "}
-                                {currentTutorial.title}
-                            </div>
-                            <div>
-                                <label>
-                                    <strong>Description:</strong>
-                                </label>{" "}
-                                {currentTutorial.description}
-                            </div>
-                            <div>
-                                <label>
-                                    <strong>Status:</strong>
-                                </label>{" "}
-                                {currentTutorial.published ? "Published" : "Pending"}
-                            </div>
-
-                            <Link
-                                to={"/tutorials/" + currentTutorial.id}
-                                className="badge badge-warning"
-                            >
-                                Edit
-                            </Link>
-                        </div>
-                    ) : (
-                        <div>
-                            <br />
-                            <p>Please click on a Tutorial...</p>
-                        </div>
-                    )}
-                </div> */}
+                </div>
             </div>
         );
     }
