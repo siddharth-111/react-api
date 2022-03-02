@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 import StoriesDataService from "../services/stories.service";
 
 export default class PlanList extends Component {
@@ -7,6 +8,7 @@ export default class PlanList extends Component {
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
         this.retrieveStories = this.retrieveStories.bind(this);
         this.refreshList = this.refreshList.bind(this);
+        this.assign = this.assign.bind(this);
 
         this.state = {
             plans: [],
@@ -16,6 +18,30 @@ export default class PlanList extends Component {
 
     componentDidMount() {
         this.retrieveStories();
+    }
+
+    assign() {
+        let assignments = [];
+
+        this.state.plans.forEach(plan => {
+           plan.developerWeekPlanList.forEach(developer => {
+                developer.storyList.forEach(story => {
+                    assignments.push({
+                        issueId: story.issueId,
+                        developerId: developer.developerId
+                    });
+                });
+           });
+        });
+
+        StoriesDataService.assignPlan(assignments)
+            .then(response => {
+                this.setState({ redirect: "/stories" });
+                // window.location.href = "/stories";
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     onChangeSearchTitle(e) {
@@ -45,6 +71,9 @@ export default class PlanList extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
         const { searchTitle, plans } = this.state;
         return (
             <div className="list row">
@@ -53,9 +82,8 @@ export default class PlanList extends Component {
                                     <div key={index}  className="col-lg-6 mb-4">
                 <div className="card">
                     <div className="card-body">
-                    <p  className="card-text text-center">
-                                      <h2> Week Number {plan.weekNumber} </h2> 
-                    </p>
+                                      <h2 className="card-text text-center"> Week Number {plan.weekNumber} </h2> 
+
                           {plan.developerWeekPlanList.map((developer, index) => (
                             <div key={index}  className="card-text">
                                 <h5>Stories List for {developer.name} </h5>
@@ -92,8 +120,20 @@ export default class PlanList extends Component {
                 </div>
             </div>
                                     
-                    ))}
-
+            ))}
+            {plans && plans.length > 0 &&
+                <div className="input-group mb-3">
+                <div className="input-group-append">
+                    <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={this.assign}
+                    >
+                        Assign
+                    </button>
+                </div>
+            </div>
+      }
                 
             </div>
         );

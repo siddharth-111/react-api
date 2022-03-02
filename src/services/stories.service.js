@@ -18,6 +18,11 @@ class StoriesDataService {
         return http.post("/stories", data);
     }
 
+    assignPlan(data)
+    {
+        return http.post("/stories/assign", data);
+    }
+
     update(id, data) {
         return http.put(`/stories/${id}`, data);
     }
