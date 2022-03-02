@@ -26,7 +26,7 @@ class DeveloperDataService {
     }
 
     findByTitle(title) {
-        return http.get(`/developers?title=${title}`);
+        return http.get(`/developers?name=${title}`);
     }
 }
 

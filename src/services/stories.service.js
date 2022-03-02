@@ -5,6 +5,11 @@ class StoriesDataService {
         return http.get("/stories");
     }
 
+    getPlan()
+    {
+        return http.get("stories/plan");
+    }
+
     get(id) {
         return http.get(`/stories/${id}`);
     }

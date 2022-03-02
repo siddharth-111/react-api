@@ -4,13 +4,14 @@ import DeveloperDataService from "../services/developer.service";
 export default class DeveloperList extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
+        this.onChangeSearchName = this.onChangeSearchName.bind(this);
         this.retrieveStories = this.retrieveStories.bind(this);
         this.refreshList = this.refreshList.bind(this);
+        this.searchName = this.searchName.bind(this);
 
         this.state = {
             developers: [],
-            searchTitle: ""
+            searchName: ""
         };
     }
 
@@ -18,12 +19,25 @@ export default class DeveloperList extends Component {
         this.retrieveStories();
     }
 
-    onChangeSearchTitle(e) {
-        const searchTitle = e.target.value;
+    onChangeSearchName(e) {
+        const searchName = e.target.value;
 
         this.setState({
-            searchTitle: searchTitle
+            searchName: searchName
         });
+    }
+
+    searchName() {
+        DeveloperDataService.findByTitle(this.state.searchName)
+            .then(response => {
+                this.setState({
+                    developers: response.data
+                });
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     retrieveStories() {
@@ -44,7 +58,7 @@ export default class DeveloperList extends Component {
     }
 
     render() {
-        const { searchTitle, developers, currentTutorial, currentIndex } = this.state;
+        const { searchName, developers} = this.state;
 
         return (
             <div className="list row">
@@ -53,15 +67,15 @@ export default class DeveloperList extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Search by title"
-                            value={searchTitle}
-                            onChange={this.onChangeSearchTitle}
+                            placeholder="Search by name"
+                            value={searchName}
+                            onChange={this.onChangeSearchName}
                         />
                         <div className="input-group-append">
                             <button
                                 className="btn btn-outline-secondary"
                                 type="button"
-                                onClick={this.searchTitle}
+                                onClick={this.searchName}
                             >
                                 Search
                             </button>

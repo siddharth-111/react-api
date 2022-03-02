@@ -7,6 +7,7 @@ export default class BugsList extends Component {
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
         this.retrieveStories = this.retrieveStories.bind(this);
         this.refreshList = this.refreshList.bind(this);
+        this.searchTitle = this.searchTitle.bind(this);
 
         this.state = {
             bugs: [],
@@ -24,6 +25,19 @@ export default class BugsList extends Component {
         this.setState({
             searchTitle: searchTitle
         });
+    }
+
+    searchTitle() {
+        BugsDataService.findByTitle(this.state.searchTitle)
+            .then(response => {
+                this.setState({
+                    bugs: response.data
+                });
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     retrieveStories() {
@@ -44,7 +58,7 @@ export default class BugsList extends Component {
     }
 
     render() {
-        const { searchTitle, bugs, currentTutorial, currentIndex } = this.state;
+        const { searchTitle, bugs} = this.state;
 
         return (
             <div className="list row">

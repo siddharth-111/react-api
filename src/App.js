@@ -5,11 +5,11 @@ import "./App.css";
 
 import AddTutorial from "./components/add-tutorial.component";
 import Tutorial from "./components/tutorial.component";
-import TutorialsList from "./components/tutorials-list.component";
 import BitCoinBlocks from "./components/bitcoin-blocks.component";
 import StoriesList from "./components/stories-list.component";
 import BugsList from "./components/bugs-list.component";
 import DeveloperList from "./components/developer-list.component";
+import PlanList from "./components/plan-list.component";
 
 
 class App extends Component {
@@ -37,6 +37,11 @@ class App extends Component {
                             </Link>
                         </li>
                         <li className="nav-item">
+                            <Link to={"/plans"} className="nav-link">
+                                Plan
+                            </Link>
+                        </li>
+                        <li className="nav-item">
                             <Link to={"/add"} className="nav-link">
                                 Add
                             </Link>
@@ -54,6 +59,7 @@ class App extends Component {
                         <Route exact path={["/", "/stories"]} component={ StoriesList } />
                         <Route exact path="/bugs" component={BugsList} />
                         <Route exact path="/developers" component={DeveloperList} />
+                        <Route exact path="/plans" component={PlanList} />
                         <Route exact path="/add" component={AddTutorial} />
                         <Route path="/tutorials/:id" component={Tutorial} />
                         <Route exact path={["/", "/bitcoinblocks"]} component={BitCoinBlocks} />
