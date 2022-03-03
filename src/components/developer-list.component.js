@@ -1,25 +1,56 @@
 import React, { Component } from "react";
 import DeveloperDataService from "../services/developer.service";
+import { Modal, Button, Form  } from "react-bootstrap";
+
 
 export default class DeveloperList extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSearchName = this.onChangeSearchName.bind(this);
-        this.retrieveStories = this.retrieveStories.bind(this);
-        this.refreshList = this.refreshList.bind(this);
-        this.searchName = this.searchName.bind(this);
 
         this.state = {
             developers: [],
-            searchName: ""
+            searchName: "",
+            isOpen: false,
+            formData: {
+                name: ""
+            }
         };
     }
 
-    componentDidMount() {
-        this.retrieveStories();
+    componentDidMount = () => {
+        this.retrieveDevelopers();
     }
 
-    onChangeSearchName(e) {
+    openModal = () => {
+        this.setState({ isOpen: true,
+            formData: {
+                name: ""
+            }
+        });   
+    } 
+
+    closeModal = () => this.setState({ isOpen: false });
+
+    submit = () => {
+        this.closeModal();
+
+        DeveloperDataService.create(this.state.formData)
+            .then(response => {
+                this.refreshList();
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        
+    }
+
+    handleNameChange = (e) => {
+        let formData = this.state.formData;
+        formData.name = e.target.value;
+        this.setState({ formData });
+    } 
+
+    onChangeSearchName = (e) => {
         const searchName = e.target.value;
 
         this.setState({
@@ -27,7 +58,7 @@ export default class DeveloperList extends Component {
         });
     }
 
-    searchName() {
+    searchName = () => {
         DeveloperDataService.findByTitle(this.state.searchName)
             .then(response => {
                 this.setState({
@@ -40,7 +71,7 @@ export default class DeveloperList extends Component {
             });
     }
 
-    retrieveStories() {
+    retrieveDevelopers = () => {
         DeveloperDataService.getAll()
             .then(response => {
                 this.setState({
@@ -53,8 +84,8 @@ export default class DeveloperList extends Component {
             });
     }
 
-    refreshList() {
-        this.retrieveStories();
+    refreshList = () => {
+        this.retrieveDevelopers();
     }
 
     render() {
@@ -62,6 +93,23 @@ export default class DeveloperList extends Component {
 
         return (
             <div className="list row">
+                <Modal show={this.state.isOpen} onHide={this.closeModal}>
+                <Modal.Header closeButton>
+          <Modal.Title>Create Developer</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+                    <Form.Group className="mb-3" >
+            <Form.Label>Name</Form.Label>
+            <Form.Control type="text" placeholder="Enter name" onChange = {this.handleNameChange} />
+        </Form.Group>
+
+        
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.closeModal}>Cancel</Button>
+          <Button variant="primary" onClick={this.submit}>Create</Button>
+        </Modal.Footer>
+      </Modal>
                 <div className="col-md-4">
                     <div className="input-group mb-3">
                         <input
@@ -81,6 +129,11 @@ export default class DeveloperList extends Component {
                             </button>
                         </div>
                     </div>
+                </div>
+                <div className="col-md-4">
+                        <Button variant="primary" onClick={this.openModal}>
+                                Add Developer
+                        </Button>
                 </div>
                 <div>
                     <h4> Developers </h4>

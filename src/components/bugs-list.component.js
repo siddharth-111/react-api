@@ -1,25 +1,42 @@
 import React, { Component } from "react";
 import BugsDataService from "../services/bugs.service";
+import { Modal, Button, Form  } from "react-bootstrap";
 
 export default class BugsList extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-        this.retrieveStories = this.retrieveStories.bind(this);
-        this.refreshList = this.refreshList.bind(this);
-        this.searchTitle = this.searchTitle.bind(this);
 
         this.state = {
             bugs: [],
-            searchTitle: ""
+            searchTitle: "",
+            isOpen: false,
+            formData: {
+                title: "",
+                description: "",
+                bugStatus: "NEW",
+                priority : "MINOR"
+            }
         };
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.retrieveStories();
     }
 
-    onChangeSearchTitle(e) {
+    openModal = () => {
+        this.setState({ isOpen: true,
+            formData: {
+                title: "",
+                description: "",
+                bugStatus: "NEW",
+                priority : "MINOR"
+            }
+        });   
+    } 
+
+    closeModal = () => this.setState({ isOpen: false });
+
+    onChangeSearchTitle = (e) => {
         const searchTitle = e.target.value;
 
         this.setState({
@@ -27,7 +44,47 @@ export default class BugsList extends Component {
         });
     }
 
-    searchTitle() {
+    submit = () => {
+        this.closeModal();
+
+        BugsDataService.create(this.state.formData)
+            .then(response => {
+                this.refreshList();
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        
+    }
+
+    handleTitleChange = (e) => {
+        let formData = this.state.formData;
+        formData.title = e.target.value;
+        this.setState({ formData });
+    } 
+
+
+    handleDescriptionChange = (e) => {
+        let formData = this.state.formData;
+        formData.description = e.target.value;
+        this.setState({ formData });
+    }
+
+    handlePriorityChange = (e) => {
+        console.log("caleld points")
+        let formData = this.state.formData;
+        formData.priority = e.target.value;
+        this.setState({ formData });
+    }
+    
+    handleStatusChange = (e) => {
+        console.log("caleld status")
+        let formData = this.state.formData;
+        formData.bugStatus = e.target.value;
+        this.setState({ formData });
+    }
+
+    searchTitle = () => {
         BugsDataService.findByTitle(this.state.searchTitle)
             .then(response => {
                 this.setState({
@@ -40,7 +97,7 @@ export default class BugsList extends Component {
             });
     }
 
-    retrieveStories() {
+    retrieveStories = () => {
         BugsDataService.getAll()
             .then(response => {
                 this.setState({
@@ -53,16 +110,56 @@ export default class BugsList extends Component {
             });
     }
 
-    refreshList() {
+    refreshList = () => {
         this.retrieveStories();
     }
 
-    render() {
+    render = () => {
         const { searchTitle, bugs} = this.state;
 
         return (
             <div className="list row">
-                <div className="col-md-8">
+                <Modal show={this.state.isOpen} onHide={this.closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Bug</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+                    <Form.Group className="mb-3" >
+            <Form.Label>Title</Form.Label>
+            <Form.Control type="email" placeholder="Enter title" onChange = {this.handleTitleChange} />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+            <Form.Label>Description</Form.Label>
+            <Form.Control type="email" placeholder="Enter Description" onChange = {this.handleDescriptionChange} />
+        </Form.Group>
+        
+        <Form.Group className="mb-3" >
+            <Form.Label>Priority</Form.Label>
+            <Form.Select aria-label="Default select example" onChange = { this.handlePriorityChange }>
+            <option value="MINOR">Minor</option>
+            <option value="MAJOR">Major</option>
+            <option value="CRITICAL">Critical</option>
+            </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+            <Form.Label>Status</Form.Label>
+            <Form.Select aria-label="Default select example" onChange = { this.handleStatusChange }>
+            <option value="NEW">New</option>
+            <option value="VERIFIED">Verified</option>
+            <option value="RESOLVED">Resolved</option>
+            </Form.Select>
+        </Form.Group>
+
+        
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.closeModal}>Cancel</Button>
+          <Button variant="primary" onClick={this.submit}>Create</Button>
+        </Modal.Footer>
+      </Modal>
+                <div className="col-md-4">
                     <div className="input-group mb-3">
                         <input
                             type="text"
@@ -81,6 +178,11 @@ export default class BugsList extends Component {
                             </button>
                         </div>
                     </div>
+                </div>
+                <div className="col-md-4">
+                        <Button variant="primary" onClick={this.openModal}>
+                                Create Bug
+                        </Button>
                 </div>
                 <div>
                     <h4>Bugs </h4>
