@@ -206,6 +206,7 @@ export default class StoriesList extends Component {
                                 <th scope="col">Description</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Points</th>
+                                <th scope="col">Developer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -217,6 +218,7 @@ export default class StoriesList extends Component {
                                                 <td>{story.description}</td>
                                                 <td>{story.storyStatus}</td>
                                                 <td>{story.points}</td>
+                                                <td>{story.developer != null ? story.developer.name : ""}</td>
                                             </tr>
                                 ))}
                             </tbody>
