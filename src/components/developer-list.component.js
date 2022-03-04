@@ -64,7 +64,6 @@ export default class DeveloperList extends Component {
                 this.setState({
                     developers: response.data
                 });
-                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -88,7 +87,7 @@ export default class DeveloperList extends Component {
         this.retrieveDevelopers();
     }
 
-    render() {
+    render = () => {
         const { searchName, developers} = this.state;
 
         return (

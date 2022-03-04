@@ -5,22 +5,17 @@ import StoriesDataService from "../services/stories.service";
 export default class PlanList extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-        this.retrieveStories = this.retrieveStories.bind(this);
-        this.refreshList = this.refreshList.bind(this);
-        this.assign = this.assign.bind(this);
 
         this.state = {
-            plans: [],
-            searchTitle: ""
+            plans: []
         };
     }
 
-    componentDidMount() {
-        this.retrieveStories();
+    componentDidMount = () => {
+        this.retrievePlan();
     }
 
-    assign() {
+    assign = () => {
         let assignments = [];
 
         this.state.plans.forEach(plan => {
@@ -37,44 +32,31 @@ export default class PlanList extends Component {
         StoriesDataService.assignPlan(assignments)
             .then(response => {
                 this.setState({ redirect: "/stories" });
-                // window.location.href = "/stories";
             })
             .catch(e => {
                 console.log(e);
             });
     }
 
-    onChangeSearchTitle(e) {
-        const searchTitle = e.target.value;
 
-        this.setState({
-            searchTitle: searchTitle
-        });
-    }
-
-    retrieveStories() {
+    retrievePlan = () => {
         StoriesDataService.getPlan()
             .then(response => {
-                console.log(response.data);
                 this.setState({
                     plans: response.data
                 });
-                
             })
             .catch(e => {
                 console.log(e);
             });
     }
 
-    refreshList() {
-        this.retrieveStories();
-    }
 
-    render() {
+    render = () => {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
-        const { searchTitle, plans } = this.state;
+        const { plans } = this.state;
         return (
             <div className="list row">
                             {plans &&

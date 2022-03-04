@@ -71,14 +71,12 @@ export default class BugsList extends Component {
     }
 
     handlePriorityChange = (e) => {
-        console.log("caleld points")
         let formData = this.state.formData;
         formData.priority = e.target.value;
         this.setState({ formData });
     }
     
     handleStatusChange = (e) => {
-        console.log("caleld status")
         let formData = this.state.formData;
         formData.bugStatus = e.target.value;
         this.setState({ formData });
@@ -90,7 +88,6 @@ export default class BugsList extends Component {
                 this.setState({
                     bugs: response.data
                 });
-                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -195,6 +192,7 @@ export default class BugsList extends Component {
                                 <th scope="col">Description</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Priority</th>
+                                <th scope="col">Developer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -206,6 +204,7 @@ export default class BugsList extends Component {
                                                 <td>{bug.description}</td>
                                                 <td>{bug.bugStatus}</td>
                                                 <td>{bug.priority}</td>
+                                                <td>{bug.developer != null ? bug.developer.name : ""}</td>
                                             </tr>
                                 ))}
                             </tbody>

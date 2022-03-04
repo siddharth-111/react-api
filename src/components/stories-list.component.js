@@ -74,14 +74,12 @@ export default class StoriesList extends Component {
     }
 
     handlePointsChange = (e) => {
-        console.log("caleld points")
         let formData = this.state.formData;
         formData.points = parseInt(e.target.value);
         this.setState({ formData });
     }
     
     handleStatusChange = (e) => {
-        console.log("caleld status")
         let formData = this.state.formData;
         formData.storyStatus = e.target.value;
         this.setState({ formData });
@@ -93,7 +91,6 @@ export default class StoriesList extends Component {
                 this.setState({
                     stories: response.data
                 });
-                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -107,11 +104,9 @@ export default class StoriesList extends Component {
     retrieveStories = () => {
         StoriesDataService.getAll()
             .then(response => {
-                console.log(response.data);
                 this.setState({
                     stories: response.data
                 });
-                
             })
             .catch(e => {
                 console.log(e);
